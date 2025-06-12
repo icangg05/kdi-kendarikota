@@ -11,6 +11,7 @@ import { Autoplay, EffectFade, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Fancybox from "@/Components/Fancybox";
 import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
+import MarqueeText from "@/Components/MarqueeText";
 
 export default function Welcome({
   youtube,
@@ -78,6 +79,10 @@ export default function Welcome({
     <GuestLayout>
       <Hero slider={slider} />
       <Walikota banner={banner} />
+
+      {/* Teks berjalan */}
+      <MarqueeText />
+
       <News
         widgetError={widgetError}
         setWidgetError={setWidgetError}

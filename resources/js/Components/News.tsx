@@ -173,6 +173,9 @@ export default function News({
               Informasi Kementerian Komunikasi dan Digital
             </p>
           </div>
+          <div className="mb-5">
+            <img src="/img/stop-kekerasan.webp" alt="image" />
+          </div>
           <div className="px-3 md:px-0">
             {widgetLoading ? (
               <div className="bg-[#2B3779] rounded-lg h-[580px] w-full flex justify-center items-center">
