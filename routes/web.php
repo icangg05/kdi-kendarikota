@@ -3,8 +3,32 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SitemapController;
 use App\Models\Download;
+use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
+
+// UPDATE EMAIL LEWAT ROUTE
+Route::get('/update-email/{email}', function($email) {
+  $user = User::first();
+  $user->update([
+    'email' => $email,
+  ]);
+  dd($user);
+});
+Route::get('/update-name/{name}', function($name) {
+  $user = User::first();
+  $user->update([
+    'name' => $name,
+  ]);
+  dd($user);
+});
+Route::get('/update-password/{password}', function($password) {
+  $user = User::first();
+  $user->update([
+    'password' => bcrypt($password),
+  ]);
+  dd($user);
+});
 
 Route::get('/sitemap', [SitemapController::class, 'index']);
 
@@ -38,7 +62,6 @@ Route::post('/api/count-download', function () {
     'message' => $message ?? 'Success. Nothing to update',
   ]);
 });
-
 
 // Dashboard route
 // Route::get('/dashboard', function () {

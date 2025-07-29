@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import {
   Facebook,
   Instagram,
@@ -24,6 +24,9 @@ const Footer = () => {
     },
   ];
 
+  const { props } = usePage();
+  const admin = props.admin as any;
+
   return (
     <>
       <footer className="py-8 bg-main text-white">
@@ -32,7 +35,7 @@ const Footer = () => {
             <div className="col-span-4 lg:col-span-1">
               <img src="/img/logo.svg" alt="logo" className="w-44 lg:w-52" />
               <p className="mt-6 mb-5 lg:mt-8 lg:mb-9  text-xs lg:text-sm">
-                Alamat Redaksi: Jln. Balaikota II No. 65 A Kota Kendari
+                Alamat : Jl. Drs. H. Abdullah Silondae No.8 Lantai 9, Gedung Menara Balai Kota Kendari Pondambea, Kec. Kadia, Kota Kendari, Sulawesi Tenggara 93111
               </p>
               <div className="flex items-center space-x-3.5 text-base lg:text-xl">
                 {icons.map((item: any, i: any) => (
@@ -135,22 +138,21 @@ const Footer = () => {
                 ></div>
               </div>
 
-              <div className="mt-4 flex flex-col space-y-3.5 text-xs lg:text-sm">
-                <div className="flex items-center gap-x-2 text-white/80">
+              <div className="mt-4 flex flex-col space-y-1 text-xs lg:text-sm">
+                {/* <div className="flex items-center gap-x-2 text-white/80">
                   <MapPinHouse className="w-[13px] lg:w-[15px]" />
                   <span className="text-white">
-                    Jln. Balaikota II No. 65 A Kota Kendari
+                    Jl. Drs. H. Abdullah Silondae No.8 Lantai 9, Gedung Menara Balai Kota Kendari Pondambea, Kec. Kadia, Kota Kendari, Sulawesi Tenggara 93111
                   </span>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-x-2 text-white/80">
                   <Phone className="w-[13px] lg:w-[15px]" />
-                  <span className="text-white">08114057119</span>
+                  <span className="text-white">085241625858</span>
                 </div>
                 <div className="flex items-center gap-x-2 text-white/80">
                   <Mail className="w-[13px] lg:w-[15px]" />
                   <span className="text-white">
-                    kominfokendarikota@gmail.com <br />
-                    kominfokendarikota@gmail.com
+                    {admin?.email ?? '-'}
                   </span>
                 </div>
               </div>
@@ -160,7 +162,7 @@ const Footer = () => {
       </footer>
       <section className="bg-[#1A3C61]">
         <div className="container py-4 lg:py-7 text-xs lg:text-sm text-white text-center">
-          Copyright &copy; 2025{" "}
+          Copyright &copy; {new Date().getFullYear()}{" "}
           <a aria-label="link" href="/" className="hover:underline">
             Diskominfo
           </a>{" "}

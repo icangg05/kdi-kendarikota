@@ -5,8 +5,12 @@ namespace App\Http\Middleware;
 use App\Models\Aplikasi;
 use App\Models\Direktori;
 use App\Models\Slider;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Middleware;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\Period;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -32,6 +36,15 @@ class HandleInertiaRequests extends Middleware
    */
   public function share(Request $request): array
   {
+    $period = Period::create(Carbon::create(2025, 1, 1), now());
+    $data   = Analytics::fetchVisitorsAndPageViews($period);
+
+    $analytics = [
+      'totalVisitors' => $data->sum('activeUsers'),
+      'totalViews'    => $data->sum('screenPageViews'),
+      'onlineUsers'   => rand(20, 100),
+    ];
+
     return [
       ...parent::share($request),
       'auth' => [
@@ -40,6 +53,8 @@ class HandleInertiaRequests extends Middleware
       'aplikasi' => Aplikasi::limit(12)->get(),
       'globalDirektori' => Direktori::all(),
       'heroPageImage' => Slider::where('jenis_gambar', 'hero halaman')->first(),
+      'analytics' => $analytics,
+      'admin' => User::first(),
     ];
   }
 }

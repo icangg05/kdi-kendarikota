@@ -9,8 +9,11 @@ services:
       - .:/var/www/html
     ports:
       - "9000:9000"
-    depends_on:
-      - db
+      - "5173:5173"
+    # depends_on:
+    #   - db
+    networks:
+      - shared-mysql-net
 
   web:
     image: nginx:alpine
@@ -22,32 +25,9 @@ services:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
+    networks:
+      - shared-mysql-net
 
-  db:
-    image: mysql:8.0
-    container_name: kdi-kendarikota-mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: db_kendarikota
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: kendarikota
-      MYSQL_PASSWORD: kendarikota123
-    volumes:
-      - dbdata:/var/lib/mysql
-    ports:
-      - "3308:3306"
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: kdi-kendarikota-phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "8082:80"
-    depends_on:
-      - db
-
-volumes:
-  dbdata:
+networks:
+  shared-mysql-net:
+    external: true
