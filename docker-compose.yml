@@ -1,0 +1,18 @@
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: kdi-kendarikota-app
+    restart: unless-stopped
+    ports:
+      - "8002:80"
+      - "5173:5173"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - shared-mysql-net
+
+networks:
+  shared-mysql-net:
+    external: true
