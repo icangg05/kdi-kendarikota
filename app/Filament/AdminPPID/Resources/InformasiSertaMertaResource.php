@@ -76,14 +76,14 @@ class InformasiSertaMertaResource extends Resource
             Forms\Components\TextInput::make('judul')
               ->label('Nama Dokumen')
               ->placeholder('Nama Dokumen')
-              ->unique(
-                table: DokumenPPID::class,
-                column: 'judul',
-                ignoreRecord: true,
-              )->required(),
+              // ->unique(
+              //   table: DokumenPPID::class,
+              //   column: 'judul',
+              //   ignoreRecord: true,
+              // )
+              ->required(),
 
             Forms\Components\DatePicker::make('tanggal_publish')
-              ->default(now())
               ->required(),
 
             Forms\Components\Select::make('users_id')

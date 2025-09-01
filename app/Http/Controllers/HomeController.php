@@ -154,7 +154,7 @@ class HomeController extends Controller
     $search = $request->input('search');
 
     $query = DokumenPPID::with('user')
-      ->where('kategori', $jenisInformasi);
+      ->where('kategori', $jenisInformasi)->orderBy('tanggal_publish', 'desc');
 
     if ($search) {
       $query->where(function ($q) use ($search) {

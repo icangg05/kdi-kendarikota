@@ -69,7 +69,7 @@ export default function JenisInformasiPublik({
                       key={item.id}
                       className="border-b last:border-none hover:bg-gray-50 transition"
                     >
-                      <td className="px-4 py-3">{index + 1}</td>
+                      <td className="px-4 py-3">{data.from + index}.</td>
                       <td className="px-4 py-3">
                         <Link
                           href={route("menuPPIDJenisInformasiDetail", {

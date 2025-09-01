@@ -19,20 +19,24 @@ class CreateInformasiBerkala extends CreateRecord
 
   protected function mutateFormDataBeforeCreate(array $data): array
   {
-    $data['slug'] = Str::slug($data['judul']);
+    $data['slug'] = $this->generateUniqueSlug($data['judul']);
     return $data;
   }
 
-  // private function generateUniqueSlug(string $judul): string
-  // {
-  //   $slug     = Str::slug($judul);
-  //   $original = $slug;
-  //   $counter  = 1;
+  private function generateUniqueSlug(string $judul, ?int $ignoreId = null): string
+  {
+    $slug     = Str::slug($judul);
+    $original = $slug;
+    $counter  = 1;
 
-  //   while (DokumenPPID::where('slug', $slug)->exists()) {
-  //     $slug = $original . '-' . $counter++;
-  //   }
+    while (
+      DokumenPPID::where('slug', $slug)
+      ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+      ->exists()
+    ) {
+      $slug = $original . '-' . $counter++;
+    }
 
-  //   return $slug;
-  // }
+    return $slug;
+  }
 }
