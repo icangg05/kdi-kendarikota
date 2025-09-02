@@ -7,20 +7,22 @@ import {
   Instagram,
   Youtube,
 } from "lucide-react";
+import { usePage } from "@inertiajs/react";
 
 const Topnav = () => {
-  // https://www.tiktok.com/@kendarikota.go.id
+  const { pengaturan } = usePage().props as any;
+
   const icons = [
     {
-      link: "https://www.facebook.com/people/Kendarikota/100083031531002/",
+      link: pengaturan.find((item: any) => item.slug == "fb")?.value ?? '#',
       icon: <Facebook className="w-[13px]" />,
     },
     {
-      link: "https://www.instagram.com/kendarikotagoid/",
+      link: pengaturan.find((item: any) => item.slug == "ig")?.value ?? '#',
       icon: <Instagram className="w-[13px]" />,
     },
     {
-      link: "https://www.youtube.com/@kendarikotagoid9481/featured",
+      link: pengaturan.find((item: any) => item.slug == "yt")?.value ?? '#',
       icon: <Youtube className="w-[13px]" />,
     },
   ];

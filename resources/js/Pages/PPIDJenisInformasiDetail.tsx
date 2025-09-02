@@ -77,7 +77,7 @@ export default function DetailDokumen({
                   data.lampiran ? route("downloadDokumenPPID", data.id) : "#"
                 }
                 download
-                className={`${!data.lampiran ? 'pointer-events-none opacity-45' : ''} mt-4 lg:mt-0 bg-[#1B3C60] text-sm lg:text-base text-white px-4 py-2 rounded-md shadow-md flex items-center gap-2 transition`}
+                className={`${!data.lampiran ? 'pointer-events-none opacity-45' : ''} text-nowrap mt-4 lg:mt-0 bg-[#1B3C60] text-sm lg:text-base text-white px-4 py-2 rounded-md shadow-md flex items-center gap-2 transition`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

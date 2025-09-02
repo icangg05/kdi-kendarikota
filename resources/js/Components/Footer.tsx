@@ -1,31 +1,23 @@
 import { Link, usePage } from "@inertiajs/react";
-import {
-  Facebook,
-  Instagram,
-  Mail,
-  MapPinHouse,
-  Phone,
-  Youtube,
-} from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, Youtube } from "lucide-react";
 
 const Footer = () => {
+  const { pengaturan, admin } = usePage().props as any;
+
   const icons = [
     {
-      link: "https://www.facebook.com/people/Kendarikota/100083031531002/",
+      link: pengaturan.find((item: any) => item.slug == "fb")?.value ?? '#',
       icon: <Facebook className="w-[20px]" />,
     },
     {
-      link: "https://www.instagram.com/kendarikotagoid/",
+      link: pengaturan.find((item: any) => item.slug == "ig")?.value ?? '#',
       icon: <Instagram className="w-[20px]" />,
     },
     {
-      link: "https://www.youtube.com/@kendarikotagoid9481/featured",
+      link: pengaturan.find((item: any) => item.slug == "yt")?.value ?? '#',
       icon: <Youtube className="w-[20px]" />,
     },
   ];
-
-  const { props } = usePage();
-  const admin = props.admin as any;
 
   return (
     <>
@@ -35,11 +27,11 @@ const Footer = () => {
             <div className="col-span-4 lg:col-span-1">
               <img src="/img/logo.svg" alt="logo" className="w-44 lg:w-52" />
               <p className="mt-6 mb-5 lg:mt-8 lg:mb-9  text-xs lg:text-sm">
-                Alamat : Jl. Drs. H. Abdullah Silondae No.8 Lantai 9, Gedung Menara Balai Kota Kendari Pondambea, Kec. Kadia, Kota Kendari, Sulawesi Tenggara 93111
+                {pengaturan.find((item: any) => item.slug == "alamat").value ?? '-'}
               </p>
               <div className="flex items-center space-x-3.5 text-base lg:text-xl">
                 {icons.map((item: any, i: any) => (
-                  <a key={i} href={item.link} aria-label="link">
+                  <a target="_blank" key={i} href={item.link} aria-label="link">
                     {item.icon}
                   </a>
                 ))}
@@ -139,21 +131,15 @@ const Footer = () => {
               </div>
 
               <div className="mt-4 flex flex-col space-y-1 text-xs lg:text-sm">
-                {/* <div className="flex items-center gap-x-2 text-white/80">
-                  <MapPinHouse className="w-[13px] lg:w-[15px]" />
-                  <span className="text-white">
-                    Jl. Drs. H. Abdullah Silondae No.8 Lantai 9, Gedung Menara Balai Kota Kendari Pondambea, Kec. Kadia, Kota Kendari, Sulawesi Tenggara 93111
-                  </span>
-                </div> */}
                 <div className="flex items-center gap-x-2 text-white/80">
                   <Phone className="w-[13px] lg:w-[15px]" />
-                  <span className="text-white">085241625858</span>
+                  <span className="text-white">
+                    {pengaturan.find((item: any) => item.slug == "no_hp_dinas").value ?? '-'}
+                  </span>
                 </div>
                 <div className="flex items-center gap-x-2 text-white/80">
                   <Mail className="w-[13px] lg:w-[15px]" />
-                  <span className="text-white">
-                    {admin?.email ?? '-'}
-                  </span>
+                  <span className="text-white">{admin?.email ?? "-"}</span>
                 </div>
               </div>
             </div>
@@ -162,7 +148,7 @@ const Footer = () => {
       </footer>
       <section className="bg-[#1A3C61]">
         <div className="container py-4 lg:py-7 text-xs lg:text-sm text-white text-center">
-          Copyright &copy; {new Date().getFullYear()}{" "}
+          Copyright &copy; {2025}{" "}
           <a aria-label="link" href="/" className="hover:underline">
             Diskominfo
           </a>{" "}

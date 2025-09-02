@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Aplikasi;
 use App\Models\Direktori;
+use App\Models\Pengaturan;
 use App\Models\Slider;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -53,14 +54,14 @@ class HandleInertiaRequests extends Middleware
       'flash' => [
         'success' => fn() => $request->session()->get('success'),
         'error'   => fn() => $request->session()->get('error'),
-        'result'  => fn() => $request->session()->get('result'),
       ],
 
       'aplikasi'        => Aplikasi::limit(12)->get(),
       'globalDirektori' => Direktori::all(),
       'heroPageImage'   => Slider::where('jenis_gambar', 'hero halaman')->first(),
       'analytics'       => $analytics,
-      'admin'           => User::first(),
+      'admin'           => User::where('role', 'admin-kendarikota')->first(),
+      'pengaturan'      => Pengaturan::all()->toArray(),
     ];
   }
 }
