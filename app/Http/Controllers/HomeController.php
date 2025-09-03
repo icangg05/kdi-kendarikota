@@ -17,6 +17,7 @@ use App\Models\Pengumuman;
 use App\Models\Perda;
 use App\Models\PermohonanInformasi;
 use App\Models\PPID;
+use App\Models\RuangLingkup;
 use App\Models\Slider;
 use App\Models\Twibbon;
 use App\Models\Youtube;
@@ -48,7 +49,7 @@ class HomeController extends Controller
   {
     return Inertia::render('SejarahVisiMisi', [
       'title' => 'Sejarah Kota Kendari',
-      'data' => Halaman::first()
+      'data'  => Halaman::first()
     ]);
   }
 
@@ -56,7 +57,18 @@ class HomeController extends Controller
   {
     return Inertia::render('SejarahVisiMisi', [
       'title' => 'Visi & Misi',
-      'data' => Halaman::findOrFail(2)
+      'data'  => Halaman::findOrFail(2)
+    ]);
+  }
+
+  public function ruangLingkup()
+  {
+    $data = RuangLingkup::first();
+
+    return Inertia::render('SejarahVisiMisi', [
+      'title'          => 'Ruang Lingkup',
+      'data'           => $data,
+      'isRuangLingkup' => request()->is('*ruang-lingkup*'),
     ]);
   }
 
@@ -200,14 +212,14 @@ class HomeController extends Controller
   /** DOWNLOAD DOKUMEN PPID */
   public function downloadDokumenPPID($id)
   {
-    $data = DokumenPPID::findOrFail($id);
+    $data = DokumenPPID::with('user')->findOrFail($id);
     $data->increment('total_unduh');
 
     if ($data->lampiran) {
       // pastikan simpan di disk public
       return Storage::disk('public')->download(
         $data->lampiran,            // path file relatif dari storage/app/public
-        $data->judul . '.' . pathinfo($data->lampiran, PATHINFO_EXTENSION) // nama file download
+        $data->judul . '_' . $data->user->name .  '.' . pathinfo($data->lampiran, PATHINFO_EXTENSION) // nama file download
       );
     }
 

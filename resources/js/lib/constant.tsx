@@ -217,6 +217,12 @@ export const menuProfil = {
       description:
         "Struktur organisasi perangkat daerah pemerintah Kota Kendari",
     },
+    {
+      title: "Ruang Lingkup",
+      href: "/kendari-kita/ruang-lingkup",
+      description:
+        "Cakupan tugas, fungsi, dan kewenangan perangkat daerah Pemerintah Kota Kendari",
+    },
   ],
 };
 
@@ -257,7 +263,8 @@ export const menuStatistik = {
 export const menuPPID = {
   label: "PPID",
   url: "/ppid",
-  description: "Layanan informasi publik dan dokumentasi resmi Pemerintah Kota Kendari",
+  description:
+    "Layanan informasi publik dan dokumentasi resmi Pemerintah Kota Kendari",
 };
 
 export const columnsPengumuman = [

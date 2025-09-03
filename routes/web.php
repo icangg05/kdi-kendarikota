@@ -49,6 +49,7 @@ Route::get('/kendari-kita/walikota', [HomeController::class, 'walikota']);
 Route::get('/kendari-kita/wakil-walikota', [HomeController::class, 'wakilWalikota']);
 Route::get('/kendari-kita/pejabat-pemerintah', [HomeController::class, 'pejabat']);
 Route::get('/kendari-kita/perangkat-daerah', [HomeController::class, 'perangkatDaerah']);
+Route::get('/kendari-kita/ruang-lingkup', [HomeController::class, 'ruangLingkup']);
 Route::get('/all-sub-domain', [HomeController::class, 'allSubDomain']);
 Route::get('/all-twibbon', [HomeController::class, 'allTwibbon']);
 
