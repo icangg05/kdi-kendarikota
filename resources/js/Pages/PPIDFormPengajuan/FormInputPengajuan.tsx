@@ -41,6 +41,15 @@ export default function FormInputPengajuan() {
     generateCaptcha();
   }, []);
 
+  // ambil query string dari URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const noReg = params.get("no_registrasi");
+    if (noReg) {
+      setData("nomor_registrasi", noReg.toUpperCase());
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 

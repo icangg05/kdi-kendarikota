@@ -19,6 +19,7 @@ import {
   DialogTrigger,
 } from "@/Components/ui/dialog";
 import axios from "axios";
+import { Link } from "@inertiajs/react";
 
 export default function CekStatusPermohonanInformasiPublik() {
   const [nik, setNik] = useState("");
@@ -136,6 +137,12 @@ export default function CekStatusPermohonanInformasiPublik() {
                           <p className="text-sm text-gray-700">
                             {item.catatan}
                           </p>
+                          <Link
+                            href={route("form-keberatan", { no_registrasi: item.nomor_registrasi })} // sesuaikan dengan route yang kamu punya
+                            className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline"
+                          >
+                            Ajukan Keberatan
+                          </Link>
                         </div>
                       </>
                     )}
