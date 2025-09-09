@@ -11,6 +11,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class OpdRelationManager extends RelationManager
@@ -40,25 +41,24 @@ class OpdRelationManager extends RelationManager
             Forms\Components\Grid::make(1)
               ->schema([
                 Forms\Components\FileUpload::make('files')
-                  ->multiple()
-                  ->acceptedFileTypes(['application/pdf'])
-                  ->maxSize(102400)
-                  ->helperText('Max upload 100MB / file.')
-                  ->maxParallelUploads(2)
-                  ->saveUploadedFileUsing(function (TemporaryUploadedFile $file, $get) {
-                    // Mengubah nama file menjadi slug
+                  ->label('Upload Dokumen')
+                  ->directory('dokumen')
+                  ->disk('public')
+                  ->acceptedFileTypes([
+                    'application/pdf',
+                    'application/x-pdf',
+                    'application/octet-stream',
+                  ])
+                  ->maxSize(config('app.max_file_size'))
+                  ->helperText('Maksimum ' . config('app.max_file_size') / 1024 . 'MB. Hanya file PDF yang diperbolehkan.')
+                  ->nullable()
+                  ->preserveFilenames()
+                  ->getUploadedFileNameForStorageUsing(function ($file): string {
                     $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $slug = str()->slug($originalName);
-
-                    // Menambahkan 4 digit angka acak
-                    $randomNumber = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT); // 4 digit angka acak
-
-                    // Gabungkan slug dengan angka acak
-                    $newFilename = $slug . '-' . $randomNumber . '.' . $file->getClientOriginalExtension();
-
-                    // Simpan file dengan nama baru
-                    return $file->storeAs('dokumen/' . date('Y'), $newFilename, 'public');
-                  }),
+                    $extension    = $file->getClientOriginalExtension();
+                    $timestamp    = Carbon::now()->format('Ymd_His');
+                    return $originalName . '_' . $timestamp . '.' . $extension;
+                  })
               ])->columnSpan(1),
           ])
       ]);
@@ -69,6 +69,7 @@ class OpdRelationManager extends RelationManager
     return $table
       ->recordTitleAttribute('nama')
       ->defaultSort('id', 'desc')
+      ->recordAction(null)
       ->columns([
         Tables\Columns\TextColumn::make('#')
           ->label('#')
@@ -77,11 +78,42 @@ class OpdRelationManager extends RelationManager
         Tables\Columns\TextColumn::make('nama')
           ->searchable()
           ->sortable(),
-        BadgeColumn::make('struktur_new')
+        Tables\Columns\TextColumn::make('files')
           ->label('File')
-          ->color('info')
-          ->formatStateUsing(fn(?string $state) => 'Lihat')
-          ->url(fn(?string $state): ?string => $state ? asset("storage/$state") : null, true),
+          ->badge()
+          ->color(fn($state) => $state ? 'primary' : 'gray')
+          ->formatStateUsing(function ($state) {
+            if (blank($state)) {
+              return 'Tidak ada';
+            }
+
+            $files = is_array($state) ? $state : explode(',', $state);
+            $first = trim($files[0] ?? '');
+
+            return $first !== '' ? 'Lihat File' : 'Tidak ada';
+          })
+          ->extraAttributes(function ($record) {
+            if (blank($record->files)) {
+              return ['style' => 'cursor: not-allowed;'];
+            }
+
+            $files = is_array($record->files) ? $record->files : explode(',', $record->files);
+            $first = trim($files[0] ?? '');
+
+            if ($first === '') {
+              return ['style' => 'cursor: not-allowed;'];
+            }
+
+            $url = asset('storage/' . ltrim($first, '/'));
+
+            return [
+              'onclick' => "window.open('{$url}', 'popup', 'width=800,height=600,scrollbars=yes,resizable=yes'); return false;",
+              'style'   => 'cursor: pointer;',
+            ];
+          })
+
+
+
       ])
       ->filters([
         //

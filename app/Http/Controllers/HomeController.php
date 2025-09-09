@@ -216,15 +216,24 @@ class HomeController extends Controller
     $data->increment('total_unduh');
 
     if ($data->lampiran) {
-      // pastikan simpan di disk public
+      $extension = pathinfo($data->lampiran, PATHINFO_EXTENSION);
+
+      // kalau ada user, sertakan nama user; kalau tidak, cukup judul saja
+      $fileName = $data->judul;
+      if ($data->user?->name) {
+        $fileName .= '_' . $data->user->name;
+      }
+      $fileName .= '.' . $extension;
+
       return Storage::disk('public')->download(
-        $data->lampiran,            // path file relatif dari storage/app/public
-        $data->judul . '_' . $data->user->name .  '.' . pathinfo($data->lampiran, PATHINFO_EXTENSION) // nama file download
+        $data->lampiran, // path file relatif dari storage/app/public
+        $fileName        // nama file hasil download
       );
     }
 
     abort(404, 'Dokumen tidak ditemukan');
   }
+
 
 
   public function menuDirektori($direktori)

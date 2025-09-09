@@ -98,9 +98,8 @@ export default function PerangkatDaerah({
                                 {list.files != null && (
                                   <div className="h-full border-2 overflow-scroll custom-scrollbar">
                                     <iframe
-                                      className="w-full h-full"
-                                      src={`https://docs.google.com/gview?url=${location.origin}/storage/${list.files[0]}&embedded=true`}
-                                      title={list.nama}
+                                      src={`/storage/${list.files}`}
+                                      className="w-full h-full border rounded-md"
                                     />
                                   </div>
                                 )}

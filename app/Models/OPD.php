@@ -28,16 +28,32 @@ class OPD extends Model
     });
 
     static::updating(function (OPD $opd) {
-      if ($opd->files != null) {
-        $filesToDelete = array_diff($opd->getOriginal('files'), $opd->files);
+      $oldFiles = $opd->getOriginal('files');
+      $newFiles = $opd->files;
 
-        foreach ($filesToDelete as $file) {
-          if (Storage::disk('public')->exists($file)) {
-            Storage::disk('public')->delete($file);
-          }
+      // pastikan jadi array
+      $oldFiles = is_array($oldFiles) ? $oldFiles : (empty($oldFiles) ? [] : explode(',', $oldFiles));
+      $newFiles = is_array($newFiles) ? $newFiles : (empty($newFiles) ? [] : explode(',', $newFiles));
+
+      $filesToDelete = array_diff($oldFiles, $newFiles);
+
+      foreach ($filesToDelete as $file) {
+        if ($file && Storage::disk('public')->exists($file)) {
+          Storage::disk('public')->delete($file);
         }
       }
     });
+    // static::updating(function (OPD $opd) {
+    //   if ($opd->files != null) {
+    //     $filesToDelete = array_diff($opd->getOriginal('files'), $opd->files);
+
+    //     foreach ($filesToDelete as $file) {
+    //       if (Storage::disk('public')->exists($file)) {
+    //         Storage::disk('public')->delete($file);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   public function pejabat(): HasMany

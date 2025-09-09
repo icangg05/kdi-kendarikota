@@ -43,7 +43,7 @@ class KategoriOPDResource extends Resource
       ->schema([
         Forms\Components\Card::make()->schema([
           Forms\Components\TextInput::make('nama')
-            ->label('Nama OPD')
+            ->label('Kategori OPD')
             ->required()
             ->placeholder('Nama OPD')
             ->maxLength(255),
