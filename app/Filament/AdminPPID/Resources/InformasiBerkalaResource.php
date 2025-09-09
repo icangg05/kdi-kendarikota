@@ -64,6 +64,19 @@ class InformasiBerkalaResource extends Resource
     return $query;
   }
 
+  public static function getNavigationBadge(): ?string
+  {
+    $query = static::getModel()::where('kategori', 'informasi-berkala');
+    if (Auth::user()->role == 'admin-opd')
+      $query->where('users_id', Auth::id());
+    return $query->count();
+  }
+
+  public static function getNavigationBadgeColor(): ?string
+  {
+    return 'success';
+  }
+
   public static function form(Form $form): Form
   {
     return $form

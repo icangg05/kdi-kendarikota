@@ -73,7 +73,64 @@ class PengajuanKeberatanResource extends Resource
   {
     return $form
       ->schema([
-        //
+        Forms\Components\Section::make('Data Pengajuan')
+          ->schema([
+            Forms\Components\TextInput::make('nomor_registrasi')
+              ->required()
+              ->readOnly()
+              ->label('Nomor Registrasi'),
+            Forms\Components\TextInput::make('nomor_ktp')
+              ->required()
+              ->label('Nomor KTP'),
+            Forms\Components\Select::make('status')
+              ->options([
+                'Pending' => 'Pending',
+                'Selesai' => 'Selesai',
+              ])
+              ->default('Pending')
+              ->required(),
+            Forms\Components\Textarea::make('catatan')
+              ->label('Catatan'),
+            Forms\Components\Textarea::make('tujuan_penggunaan')
+              ->label('Tujuan Penggunaan Informasi'),
+            Forms\Components\Textarea::make('kasus_posisi')
+              ->label('Kasus Posisi')
+              ->required(),
+            Forms\Components\Radio::make('alasan')
+              ->options([
+                'Permohonan informasi ditolak'                                   => 'Permohonan informasi ditolak',
+                'Informasi berkala tidak disediakan'                             => 'Informasi berkala tidak disediakan',
+                'Permintaan informasi tidak ditanggapi'                          => 'Permintaan informasi tidak ditanggapi',
+                'Permintaan informasi ditanggapi tidak sebagaimana yang diminta' => 'Permintaan informasi ditanggapi tidak sebagaimana yang diminta',
+                'Permintaan informasi tidak terpenuhi'                           => 'Permintaan informasi tidak terpenuhi',
+                'Biaya yang dikenakan tidak wajar'                               => 'Biaya yang dikenakan tidak wajar',
+                'Informasi disampaikan melebihi jangka waktu yang ditentukan'    => 'Informasi disampaikan melebihi jangka waktu yang ditentukan',
+              ])
+              ->inline()
+              ->required(),
+            Forms\Components\DatePicker::make('tanggal_diajukan')
+              ->label('Tanggal Diajukan')
+              ->default(now())
+              ->required(),
+          ])
+          ->columns(2),
+
+        Forms\Components\Section::make('Identitas Pemohon')
+          ->schema([
+            Forms\Components\TextInput::make('nama_pemohon')->required(),
+            Forms\Components\Textarea::make('alamat_pemohon')->required(),
+            Forms\Components\TextInput::make('pekerjaan')->required(),
+            Forms\Components\TextInput::make('no_hp_pemohon')->required(),
+          ])
+          ->columns(2),
+
+        Forms\Components\Section::make('Identitas Kuasa Pemohon')
+          ->schema([
+            Forms\Components\TextInput::make('nama_kuasa_pemohon'),
+            Forms\Components\Textarea::make('alamat_kuasa_pemohon'),
+            Forms\Components\TextInput::make('no_hp_kuasa_pemohon'),
+          ])
+          ->columns(2),
       ]);
   }
 

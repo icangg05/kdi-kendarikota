@@ -323,15 +323,33 @@ class PermohonanInformasiResource extends Resource
                 TextEntry::make('tanggal_diajukan')->label('Tanggal Diajukan')->dateTime('d M Y'),
               ]),
 
+            // Section::make('🖼️ Foto KTP')
+            //   ->collapsible()
+            //   ->schema([
+            //     ImageEntry::make('foto_ktp')
+            //       ->disk('public')
+            //       ->label('')
+            //       ->circular(false) // biar tetap kotak
+            //       ->extraImgAttributes(['class' => 'rounded-md shadow max-h-70']),
+            //   ]),
+
             Section::make('🖼️ Foto KTP')
               ->collapsible()
               ->schema([
-                ImageEntry::make('foto_ktp')
-                  ->disk('public')
+                TextEntry::make('foto_ktp')
                   ->label('')
-                  ->circular(false) // biar tetap kotak
-                  ->extraImgAttributes(['class' => 'rounded-md shadow max-h-70']),
+                  ->formatStateUsing(fn($state) => $state ? 'Lihat Foto KTP' : 'Tidak ada')
+                  ->badge() // <-- ini yang bikin tampil sebagai badge
+                  ->color(fn($state) => $state ? 'primary' : 'gray')
+                  ->extraAttributes(fn($record) => [
+                    'onclick' => $record->foto_ktp
+                      ? "window.open('" . asset('storage/' . $record->foto_ktp) . "', 'popup', 'width=600,height=800,scrollbars=yes,resizable=yes'); return false;"
+                      : "return false;",
+                    'style' => 'cursor: pointer;',
+                  ]),
               ]),
+
+
 
             Section::make('📌 Status Permohonan')
               ->collapsible()
