@@ -7,8 +7,6 @@ import {
   Calendar,
   Bell,
   Clock,
-  CheckCircle,
-  XCircle,
 } from "lucide-react";
 
 type StatistikItem = {
@@ -20,16 +18,12 @@ type StatistikItem = {
 export default function CardStatistikPPID({
   jumlahDokumen,
   jumlahPermohonanInformasi,
-  jumlahPermohonanDiterima,
-  jumlahPermohonanDitolak,
   jumlahUnduhan,
   jumlahLihat,
   jumlahBerkala,
   jumlahSertaMerta,
   jumlahSetiapSaat,
 }: any) {
-  // console.log(jumlahPermohonanDitolak)
-
   const data: StatistikItem[] = [
     {
       label: "Jumlah Dokumen",
@@ -40,16 +34,6 @@ export default function CardStatistikPPID({
       label: "Jumlah Permohonan Informasi",
       value: jumlahPermohonanInformasi,
       icon: <Mail className="w-6 h-6 text-green-600" />,
-    },
-    {
-      label: "Jumlah Permohonan Diterima",
-      value: jumlahPermohonanDiterima,
-      icon: <CheckCircle className="w-6 h-6 text-emerald-600" />,
-    },
-    {
-      label: "Jumlah Permohonan Ditolak",
-      value: jumlahPermohonanDitolak,
-      icon: <XCircle className="w-6 h-6 text-rose-600" />,
     },
     {
       label: "Jumlah Unduhan",
@@ -88,7 +72,7 @@ export default function CardStatistikPPID({
           <Card
             key={i}
             className={`flex items-center gap-4 p-6 shadow-sm ${
-              i < 6
+              i < 4
                 ? "sm:col-span-2 lg:col-span-3"
                 : "sm:col-span-1 lg:col-span-2"
             }`}

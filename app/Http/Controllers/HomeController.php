@@ -140,18 +140,22 @@ class HomeController extends Controller
     $menu_ppid                 = PPID::get()->toArray();
     $jumlahDokumen             = DokumenPPID::count();
     $jumlahPermohonanInformasi = PermohonanInformasi::count();
+    $jumlahPermohonanDiterima  = PermohonanInformasi::where('status', 'Disetujui')->count();
+    $jumlahPermohonanDitolak   = PermohonanInformasi::where('status', 'Ditolak')->count();
     $jumlahUnduhan             = DokumenPPID::sum('total_unduh');
     $jumlahLihat               = DokumenPPID::sum('total_lihat');
     $jumlahBerkala             = DokumenPPID::where('kategori', 'informasi-berkala')->count();
     $jumlahSertaMerta          = DokumenPPID::where('kategori', 'informasi-serta-merta')->count();
     $jumlahSetiapSaat          = DokumenPPID::where('kategori', 'informasi-setiap-saat')->count();
 
-    // dd(PPID::get()->toArray());
+    // dd($jumlahPermohonanDitolak);
     return Inertia::render('PPID/PPID', compact(
       'title',
       'menu_ppid',
       'jumlahDokumen',
       'jumlahPermohonanInformasi',
+      'jumlahPermohonanDiterima',
+      'jumlahPermohonanDitolak',
       'jumlahUnduhan',
       'jumlahLihat',
       'jumlahBerkala',

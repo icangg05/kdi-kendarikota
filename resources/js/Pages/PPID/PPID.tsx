@@ -37,6 +37,8 @@ export default function DaftarInformasiPublik({
   menu_ppid,
   jumlahDokumen,
   jumlahPermohonanInformasi,
+  jumlahPermohonanDiterima,
+  jumlahPermohonanDitolak,
   jumlahUnduhan,
   jumlahLihat,
   jumlahBerkala,
@@ -173,6 +175,8 @@ const menu_lain = [
             <CardStatistikPPID
               jumlahDokumen={jumlahDokumen}
               jumlahPermohonanInformasi={jumlahPermohonanInformasi}
+              jumlahPermohonanDiterima={jumlahPermohonanDiterima}
+              jumlahPermohonanDitolak={jumlahPermohonanDitolak}
               jumlahUnduhan={jumlahUnduhan}
               jumlahLihat={jumlahLihat}
               jumlahBerkala={jumlahBerkala}
