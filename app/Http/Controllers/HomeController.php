@@ -38,7 +38,7 @@ class HomeController extends Controller
         ->orderBy('jabatan.sort')
         ->select('pejabat.*')
         ->get(),
-      'infografis' => Infografis::limit(4)->orderBy('release', 'desc')->get(),
+      'infografis' => Infografis::limit(10)->orderBy('release', 'desc')->get(),
       'twibbon'    => Twibbon::orderBy('id', 'desc')->first(),
       'slider'     => Slider::where('jenis_gambar', 'slider')->get(),
       'banner'     => Slider::where('jenis_gambar', 'banner')->first(),

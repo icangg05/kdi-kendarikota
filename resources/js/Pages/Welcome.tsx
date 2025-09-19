@@ -117,7 +117,7 @@ export default function Welcome({
                     disableOnInteraction: false,
                   }}
                   speed={1000}
-                  effect="fade"
+                  // effect="fade"
                 >
                   {pejabat.map((item: any, i: any) => (
                     <SwiperSlide key={i} className="relative group">
@@ -168,6 +168,7 @@ export default function Welcome({
                     infinite: false,
                     Navigation: false,
                   },
+                  Hash: false
                 }}
               >
                 <Swiper
@@ -185,6 +186,7 @@ export default function Welcome({
                         <a
                           aria-label="link"
                           data-fancybox="gallery"
+                          data-caption={item.title}
                           href={location.origin + `/storage/${item.img}`}
                         >
                           <img
