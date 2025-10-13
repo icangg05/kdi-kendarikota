@@ -28,8 +28,6 @@ export default function CardStatistikPPID({
   jumlahSertaMerta,
   jumlahSetiapSaat,
 }: any) {
-  // console.log(jumlahPermohonanDitolak)
-
   const data: StatistikItem[] = [
     {
       label: "Jumlah Dokumen",
