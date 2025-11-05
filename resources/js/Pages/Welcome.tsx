@@ -46,7 +46,8 @@ export default function Welcome({
     setWidgetError(false);
 
     const script = document.createElement("script");
-    script.src = "https://widget.kominfo.go.id/gpr-widget-kominfo.min.js";
+    // script.src = "https://widget.kominfo.go.id/gpr-widget-kominfo.min.js";
+    script.src = "https://widget.komdigi.go.id/gpr-widget-kominfo.min.js";
     script.async = true;
 
     // Handler ketika script berhasil dimuat

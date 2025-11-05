@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IPKDController;
 use App\Http\Controllers\PPIDController;
 use App\Http\Controllers\SitemapController;
 use App\Models\Download;
@@ -34,11 +35,14 @@ Route::get('/ppid/form-pengajuan', [PPIDController::class, 'formKeberatan'])->na
 Route::post('/ppid/form-pengajuan', [PPIDController::class, 'postFormKeberatan'])->name('ppid-form-keberatan');
 Route::post('/ppid/get-permohonan', [PPIDController::class, 'getPermohonan'])->name('get-permohonan');
 
+// PPID - IPKD
+Route::get('/ppid/ipkd/download/{id}', [IPKDController::class, 'download'])->name('download-ipkd');
+Route::get('/ppid/ipkd/show/{id}', [IPKDController::class, 'show'])->name('ipkd-detail');
+Route::get('/ppid/ipkd/{tahun}', [IPKDController::class, 'index'])->name('menu-ipkd');
+
 // PPID - JENIS INFORMASI & DETAIL
 Route::get('/ppid/{jenisInformasi}', [HomeController::class, 'menuPPIDJenisInformasi'])->name('menuPPIDJenisInformasi');
 Route::get('/ppid/{jenisInformasi}/{slug}', [HomeController::class, 'menuPPIDJenisInformasiDetail'])->name('menuPPIDJenisInformasiDetail');
-
-
 
 
 Route::get('/direktori/{direktori}', [HomeController::class, 'menuDirektori']);

@@ -21,6 +21,7 @@ import CardStatistikPPID from "./CardStatistikPPID";
 import CekStatusPermohonanInformasiPublik from "./CardCekPermohonanInformasiPublik";
 import CardPengajuanKeberatan from "./CardPengajuanKeberatan";
 import CardCekPengajuanKeberatan from "./CardCekPengajuanKeberatan";
+import CardIPKD from "./CardIPKD";
 
 const iconMap: any = {
   Inbox,
@@ -45,33 +46,38 @@ export default function DaftarInformasiPublik({
   jumlahSertaMerta,
   jumlahSetiapSaat,
 }: any) {
-const menu_lain = [
-  {
-    id: "daftar-informasi",
-    label: "Daftar Informasi Publik",
-    icon: Inbox, // cocok untuk daftar/arsip
-  },
-  {
-    id: "permohonan-informasi",
-    label: "Permohonan Informasi",
-    icon: FileText, // cocok karena terkait dokumen
-  },
-  {
-    id: "cek-permohonan",
-    label: "Cek Status Permohonan Informasi Publik",
-    icon: Search, // lebih relevan untuk pencarian/cek status
-  },
-  {
-    id: "pengajuan-keberatan",
-    label: "Pengajuan Keberatan",
-    icon: FileQuestion, // ikon pertanyaan/keberatan
-  },
-  {
-    id: "cek-status-pengajuan-keberatan",
-    label: "Cek Status Pengajuan Keberatan",
-    icon: ClipboardCheck, // cek status/progress
-  },
-];
+  const menu_lain = [
+    {
+      id: "daftar-informasi",
+      label: "Daftar Informasi Publik",
+      icon: Inbox, // cocok untuk daftar/arsip
+    },
+    {
+      id: "permohonan-informasi",
+      label: "Permohonan Informasi",
+      icon: FileText, // cocok karena terkait dokumen
+    },
+    {
+      id: "cek-permohonan",
+      label: "Cek Status Permohonan Informasi Publik",
+      icon: Search, // lebih relevan untuk pencarian/cek status
+    },
+    {
+      id: "pengajuan-keberatan",
+      label: "Pengajuan Keberatan",
+      icon: FileQuestion, // ikon pertanyaan/keberatan
+    },
+    {
+      id: "cek-status-pengajuan-keberatan",
+      label: "Cek Status Pengajuan Keberatan",
+      icon: ClipboardCheck, // cek status/progress
+    },
+    {
+      id: "ipkd",
+      label: "Dokumen IPKD",
+      icon: FileText, // ipkd
+    },
+  ];
 
   const menu_ditampilkan = [
     ...menu_ppid.map((item: any) => ({
@@ -112,34 +118,62 @@ const menu_lain = [
       <PageLayout title="PPID Kota Kendari">
         <div className="flex flex-col lg:flex-row gap-6 lg:container">
           {/* Sidebar */}
-          <div className="h-fit w-full lg:w-80 bg-white rounded-2xl shadow-lg p-5 flex flex-col gap-1">
-            {menu_ditampilkan.map((item, i) => {
-              const Icon =
-                typeof item.icon === "string" ? iconMap[item.icon] : item.icon;
+          <div className="h-fit w-full lg:w-80">
+            <div className="bg-white rounded-2xl shadow-lg p-5 flex flex-col gap-1">
+              {menu_ditampilkan.map((item, i) => {
+                const Icon =
+                  typeof item.icon === "string"
+                    ? iconMap[item.icon]
+                    : item.icon;
 
-              return (
-                <button
-                  key={i}
-                  onClick={() => setActiveId(item.id)}
-                  className={`text-left text-sm flex items-center gap-3 px-3 py-[10px] rounded-xl font-semibold transition ${
-                    activeId === item.id
-                      ? "bg-[#1B3C60] text-white shadow-md"
-                      : "text-gray-600 font-medium hover:bg-gray-50"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-6 flex items-center justify-center rounded-lg ${
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setActiveId(item.id)}
+                    className={`text-left text-sm flex items-center gap-3 px-3 py-[10px] rounded-xl font-semibold transition ${
                       activeId === item.id
-                        ? "bg-white/20"
-                        : "bg-gray-100 text-gray-500"
+                        ? "bg-[#1B3C60] text-white shadow-md"
+                        : "text-gray-600 font-medium hover:bg-gray-50"
                     }`}
                   >
-                    {Icon && <Icon className="size-4" />}
-                  </div>
-                  {item.label}
-                </button>
-              );
-            })}
+                    <div
+                      className={`w-8 h-6 flex items-center justify-center rounded-lg ${
+                        activeId === item.id
+                          ? "bg-white/20"
+                          : "bg-gray-100 text-gray-500"
+                      }`}
+                    >
+                      {Icon && <Icon className="size-4" />}
+                    </div>
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-6 bg-white rounded-2xl shadow-lg p-5 flex flex-col gap-3 items-center text-center">
+              <img
+                src="/img/help-img.png"
+                alt="Chatina - Asisten Virtual PPID"
+                className="w-32 h-32 object-contain mx-auto"
+              />
+              <h3 className="text-base font-semibold text-gray-800">
+                Ada Pertanyaan Seputar PPID?
+              </h3>
+              <p className="text-sm text-gray-500">
+                Jika ada pertanyaan mengenai layanan atau informasi publik, Anda
+                dapat melakukan chat dengan{" "}
+                <span className="font-semibold text-[#1B3C60]">Chatina</span>,
+                asisten virtual Kota Kendari yang siap menjawab pertanyaan Anda.
+              </p>
+              <a
+                href="https://chatina.kendarikota.go.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm mt-2 bg-[#1B3C60] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#214a77] transition"
+              >
+                Tanya Chatina
+              </a>
+            </div>
           </div>
 
           {/* Konten */}
@@ -155,9 +189,12 @@ const menu_lain = [
             {activeId === "cek-permohonan" && (
               <CekStatusPermohonanInformasiPublik />
             )}
+            {activeId === "ipkd" && <CardIPKD />}
 
             {activeId === "pengajuan-keberatan" && <CardPengajuanKeberatan />}
-            {activeId === "cek-status-pengajuan-keberatan" && <CardCekPengajuanKeberatan />}
+            {activeId === "cek-status-pengajuan-keberatan" && (
+              <CardCekPengajuanKeberatan />
+            )}
 
             {/* dinamis */}
             {menu_ppid.some((m: any) => m.id === activeId) && (
@@ -167,7 +204,10 @@ const menu_lain = [
                   activeId
                 }
                 content={content}
-                lampiran={menu_ditampilkan.find((m) => m.id === activeId)?.lampiran || null}
+                lampiran={
+                  menu_ditampilkan.find((m) => m.id === activeId)?.lampiran ||
+                  null
+                }
               />
             )}
 

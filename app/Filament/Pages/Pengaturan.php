@@ -11,8 +11,8 @@ use Filament\Pages\Page;
 class Pengaturan extends Page
 {
   protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-  protected static string $view   = 'filament.pages.pengaturan';
-  protected static ?string $title = 'Pengaturan';
+  protected static string $view            = 'filament.pages.pengaturan';
+  protected static ?string $title          = 'Pengaturan';
 
   public ?array $data = [];
 

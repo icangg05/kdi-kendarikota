@@ -1,5 +1,5 @@
 import { Card } from "@/Components/card";
-import { ApiResponse, Post } from "@/types";
+import { ApiResponse } from "@/types";
 import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
