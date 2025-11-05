@@ -85,6 +85,25 @@ class DokumenIPKDResource extends Resource
           ->searchable()
           ->date('d M Y'),
       ])
+      ->filters([
+        Tables\Filters\SelectFilter::make('tahun')
+          ->label('Tahun')
+          ->options(function () {
+            return DokumenIPKD::selectRaw('YEAR(tgl_publish) as tahun')
+              ->whereNotNull('tgl_publish')
+              ->distinct()
+              ->orderByDesc('tahun')
+              ->pluck('tahun', 'tahun'); // key = value = tahun
+          })
+          ->query(function ($query, array $data) {
+            if (! $data['value']) {
+              return $query;
+            }
+
+            return $query->whereYear('tgl_publish', $data['value']);
+          }),
+      ])
+
       ->defaultSort('tgl_publish', 'desc')
       ->actions([
         // ✅ Tombol DOWNLOAD
