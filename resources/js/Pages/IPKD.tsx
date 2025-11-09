@@ -39,7 +39,7 @@ export default function IPKD({
           >
             <div>
               <h2 className="text-xl font-semibold">{title}</h2>
-              <p className="text-sm text-gray-500">Daftar dokumen IPKD</p>
+              <p className="text-sm text-gray-500">Daftar dokumen pelaporan IPKD</p>
             </div>
             <input
               type="text"
@@ -80,8 +80,8 @@ export default function IPKD({
                           {item.judul}
                         </Link>
                       </td>
-                      <td className="px-4 py-3 text-nowrap">{formatTanggalIndo(item.tgl_publish)}</td>
-                      <td className="px-4 py-3 text-nowrap">{formatTanggalIndo(item.tgl_disahkan)}</td>
+                      <td className="px-4 py-3 text-nowrap">{item.tgl_publish ? formatTanggalIndo(item.tgl_publish) : '-'}</td>
+                      <td className="px-4 py-3 text-nowrap">{item.tgl_disahkan ? formatTanggalIndo(item.tgl_disahkan) : '-'}</td>
                       <td className="px-4 py-3 text-center">
                         <a
                           href={route("download-ipkd", {

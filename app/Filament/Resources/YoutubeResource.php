@@ -49,7 +49,7 @@ class YoutubeResource extends Resource
       ->columns([
         TextColumn::make('#')
           ->label('#')
-          ->state(fn($rowLoop) => $rowLoop->iteration . '.')
+          ->rowIndex()
           ->width('7%'),
 
         ViewColumn::make('link')

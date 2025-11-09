@@ -148,7 +148,11 @@ class HomeController extends Controller
     $jumlahSertaMerta          = DokumenPPID::where('kategori', 'informasi-serta-merta')->count();
     $jumlahSetiapSaat          = DokumenPPID::where('kategori', 'informasi-setiap-saat')->count();
 
-    // dd($jumlahPermohonanDitolak);
+    $dokumen_ipkd = \App\Models\DokumenIPKD::whereNotNull('tahun_pelaporan')
+      ->distinct()
+      ->orderByDesc('tahun_pelaporan')
+      ->pluck('tahun_pelaporan');
+
     return Inertia::render('PPID/PPID', compact(
       'title',
       'menu_ppid',
@@ -161,6 +165,7 @@ class HomeController extends Controller
       'jumlahBerkala',
       'jumlahSertaMerta',
       'jumlahSetiapSaat',
+      'dokumen_ipkd',
     ));
   }
 
@@ -228,10 +233,11 @@ class HomeController extends Controller
         $fileName .= '_' . $data->user->name;
       }
       $fileName .= '.' . $extension;
+      $filePath = Storage::disk('public')->path($data->lampiran);
 
-      return Storage::disk('public')->download(
-        $data->lampiran, // path file relatif dari storage/app/public
-        $fileName        // nama file hasil download
+      return response()->download(
+        $filePath,
+        $fileName
       );
     }
 

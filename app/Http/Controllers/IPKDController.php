@@ -18,7 +18,7 @@ class IPKDController extends Controller
     abort_if(!is_numeric($tahun), 404);
     $search = $request->input('search');
 
-    $query = \App\Models\DokumenIPKD::whereYear('tgl_publish', $tahun)
+    $query = \App\Models\DokumenIPKD::where('tahun_pelaporan', $tahun)
       ->orderBy('tgl_publish', 'desc');
 
     if ($search) {
@@ -26,7 +26,7 @@ class IPKDController extends Controller
     }
 
     return Inertia::render('IPKD', [
-      'title'          => 'Dokumen IPKD ' . $tahun,
+      'title'          => 'Dokumen Pelaporan IPKD ' . $tahun,
       'data'           => $query->paginate(20)->appends(['search' => $search]),
       'filters'        => ['search' => $search],
       'tahun'          => $tahun,
@@ -40,10 +40,12 @@ class IPKDController extends Controller
   public function show($id)
   {
     $data = DokumenIPKD::findOrFail($id);
+    $isArchive = preg_match('/\.(zip|rar)$/i', $data->lampiran);
 
     return Inertia::render('IPKDDetail', [
-      'tahun' => Carbon::parse($data->tgl_publish)->format('Y'),
-      'data'  => $data,
+      'tahun'     => Carbon::parse($data->tgl_publish)->format('Y'),
+      'data'      => $data,
+      'isArchive' => $isArchive,
     ]);
   }
 
@@ -58,7 +60,7 @@ class IPKDController extends Controller
     if ($data->lampiran) {
       $extension = pathinfo($data->lampiran, PATHINFO_EXTENSION);
 
-      $fileName = $data->judul . ' - ' . Carbon::parse($data->tgl_publish)->format('Y');
+      $fileName = $data->judul . ' - Pelaporan ' . $data->tahun_pelaporan;
       $fileName = preg_replace('/[\/\\\:\*\?\"\<\>\|]+/', ' ', $fileName);
 
       $fileName = trim($fileName);

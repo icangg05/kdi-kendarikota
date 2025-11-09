@@ -180,7 +180,7 @@ class PermohonanInformasiResource extends Resource
       ->columns([
         Tables\Columns\TextColumn::make('#')
           ->label('#')
-          ->state(fn($rowLoop) => $rowLoop->iteration . '.')
+          ->rowIndex()
           ->width('7%'),
 
         Tables\Columns\TextColumn::make('nomor_registrasi')

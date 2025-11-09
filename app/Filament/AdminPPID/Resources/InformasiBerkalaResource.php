@@ -117,9 +117,9 @@ class InformasiBerkalaResource extends Resource
                 'application/x-pdf',
                 'application/octet-stream',
               ])
-              ->maxSize(config('app.max_file_size'))
               ->helperText('Maksimum ' . config('app.max_file_size') / 1024 . 'MB. Hanya file PDF yang diperbolehkan.')
               ->nullable()
+              ->maxSize(config('app.max_file_size'))
               ->preserveFilenames()
               ->getUploadedFileNameForStorageUsing(function ($file): string {
                 $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -145,7 +145,7 @@ class InformasiBerkalaResource extends Resource
       ->columns([
         TextColumn::make('#')
           ->label('#')
-          ->state(fn($rowLoop) => $rowLoop->iteration . '.')
+          ->rowIndex()
           ->width('7%'),
 
         TextColumn::make('judul')

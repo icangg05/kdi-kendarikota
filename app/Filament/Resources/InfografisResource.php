@@ -68,7 +68,7 @@ class InfografisResource extends Resource
         TextColumn::make('#')
           ->label('#')
           ->placeholder('Judul')
-          ->state(fn($rowLoop) => $rowLoop->iteration . '.')
+          ->rowIndex()
           ->width('7%'),
 
         TextColumn::make('title')

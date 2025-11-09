@@ -5,10 +5,11 @@ type InfoCardProps = {
   title: string;
   bgColor: string;
   textColor: string;
+  classes?: string;
   onClick?: () => void;
 };
 
-export default function CardJenisInformasi({ icon, title, bgColor, textColor, onClick }: InfoCardProps) {
+export default function CardJenisInformasi({ icon, title, classes = '', bgColor, textColor, onClick }: InfoCardProps) {
   return (
     <Card
       onClick={onClick}
@@ -21,7 +22,7 @@ export default function CardJenisInformasi({ icon, title, bgColor, textColor, on
         {icon}
       </div>
       {/* Title */}
-      <h3 className="text-center text-base font-semibold text-gray-700">
+      <h3 className={`${classes ? classes : ''} text-center text-base font-semibold text-gray-700`}>
         {title}
       </h3>
     </Card>

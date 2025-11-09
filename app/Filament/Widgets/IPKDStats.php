@@ -5,28 +5,34 @@ namespace App\Filament\Widgets;
 use App\Models\DokumenIPKD;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Auth;
 
 class IPKDStats extends BaseWidget
 {
   protected function getStats(): array
   {
-    $stats = [];
+    if (Auth::user()->role == 'admin-ppid') {
+      $stats = [];
 
-    // Ambil semua tahun dari tgl_publish (distinct) urut desc
-    $years = DokumenIPKD::selectRaw('YEAR(tgl_publish) AS tahun')
-      ->distinct()
-      ->orderByDesc('tahun')
-      ->pluck('tahun');
+      // Ambil tahun_pelaporan yang tersedia
+      $years = DokumenIPKD::whereNotNull('tahun_pelaporan')
+        ->distinct()
+        ->orderByDesc('tahun_pelaporan')
+        ->pluck('tahun_pelaporan');
 
-    foreach ($years as $tahun) {
-      $jumlah = DokumenIPKD::whereYear('tgl_publish', $tahun)->count();
+      foreach ($years as $tahun) {
+        // Hitung jumlah dokumen berdasarkan tahun_pelaporan
+        $jumlah = DokumenIPKD::where('tahun_pelaporan', $tahun)->count();
 
-      $stats[] = Stat::make("IPKD Tahun $tahun", $jumlah)
-        ->description("Jumlah dokumen IPKD tahun $tahun")
-        ->icon('heroicon-o-calendar-days')
-        ->color('primary');
+        $stats[] = Stat::make("Pelaporan IPKD Tahun $tahun", $jumlah)
+          ->description("Dokumen pelaporan IPKD tahun $tahun")
+          ->icon('heroicon-o-calendar-days')
+          ->color('primary');
+      }
+
+      return $stats;
     }
 
-    return $stats;
+    return [];
   }
 }

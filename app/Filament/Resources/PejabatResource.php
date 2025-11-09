@@ -112,7 +112,7 @@ class PejabatResource extends Resource
       ->columns([
         TextColumn::make('#')
           ->label('#')
-          ->state(fn($rowLoop) => $rowLoop->iteration . '.')
+          ->rowIndex()
           ->width('7%'),
 
         ImageColumn::make('foto')

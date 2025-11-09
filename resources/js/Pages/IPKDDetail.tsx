@@ -2,10 +2,10 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import PageLayout from "@/Layouts/PageLayout";
 import { Card } from "@/Components/card";
 import { Link } from "@inertiajs/react";
-import { ArrowLeft } from "lucide-react";
+import { ArchiveRestore, ArrowLeft } from "lucide-react";
 import { formatTanggalIndo } from "@/lib/utils";
 
-export default function IPKDDetail({ tahun, data }: { tahun: any; data: any }) {
+export default function IPKDDetail({ tahun, data, isArchive }: any) {
   return (
     <GuestLayout>
       <PageLayout title={"PPID - Dokumen IPKD " + tahun}>
@@ -73,7 +73,7 @@ export default function IPKDDetail({ tahun, data }: { tahun: any; data: any }) {
                       Tanggal Publish
                     </dt>
                     <dd className="text-gray-600">
-                      {data.tanggal_publish
+                      {data.tgl_publish
                         ? formatTanggalIndo(data.tgl_publish)
                         : "-"}
                     </dd>
@@ -83,7 +83,7 @@ export default function IPKDDetail({ tahun, data }: { tahun: any; data: any }) {
                       Tanggal Disahkan
                     </dt>
                     <dd className="text-gray-600">
-                      {data.tanggal_publish
+                      {data.tgl_disahkan
                         ? formatTanggalIndo(data.tgl_disahkan)
                         : "-"}
                     </dd>
@@ -104,10 +104,46 @@ export default function IPKDDetail({ tahun, data }: { tahun: any; data: any }) {
                 </h3>
 
                 {data.lampiran ? (
-                  <iframe
-                    src={`/storage/${data.lampiran}`}
-                    className="w-full h-[550px] lg:h-[600px] border rounded-md"
-                  />
+                  isArchive ? (
+                    <div className="bg-gray-50 w-full h-[240px] border rounded-md flex flex-col items-center justify-center text-gray-700 py-6">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-12 w-12 mb-3 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+                        />
+                      </svg>
+
+                      {/* Pesan dengan format file */}
+                      <p className="text-sm mb-2">
+                        {(() => {
+                          const ext =
+                            data.lampiran?.split(".").pop()?.toLowerCase() ||
+                            "";
+                          return `Arsip: format ${ext.toUpperCase()} — klik Tombol "Unduh Arsip".`;
+                        })()}
+                      </p>
+                      <a
+                        href={route("download-ipkd", data.id)}
+                        className="text-xs flex items-center gap-2 bg-[#1B3C60] hover:bg-[#234b78] text-white px-3.5 py-2 rounded-md shadow-md transition-all"
+                      >
+                        <ArchiveRestore className="w-4 h-4" />
+                        Unduh Arsip
+                      </a>
+                    </div>
+                  ) : (
+                    <iframe
+                      src={`/storage/${data.lampiran}`}
+                      className="w-full h-[550px] lg:h-[600px] border rounded-md"
+                    />
+                  )
                 ) : (
                   <div className="bg-gray-50 w-full h-[240px] border rounded-md flex flex-col items-center justify-center text-gray-500">
                     <svg

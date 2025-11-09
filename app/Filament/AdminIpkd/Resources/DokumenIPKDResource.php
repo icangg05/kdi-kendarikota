@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
+use Illuminate\Support\Carbon;
 
 class DokumenIPKDResource extends Resource
 {
@@ -36,9 +37,17 @@ class DokumenIPKDResource extends Resource
           ->placeholder('Masukkan judul dokumen IPKD')
           ->maxLength(255),
 
+        Forms\Components\TextInput::make('tahun_pelaporan')
+          ->label('Tahun Pelaporan')
+          ->required()
+          ->numeric()
+          ->rules(['digits:4'])
+          ->placeholder('Masukkan tahun pelaporan')
+          ->maxLength(4),
+
         Forms\Components\DatePicker::make('tgl_publish')
           ->label('Tanggal Publish')
-          ->required()
+          ->default(now())
           ->placeholder('Masukkan tanggal publish')
           ->native(false),
 
@@ -53,11 +62,22 @@ class DokumenIPKDResource extends Resource
           ->downloadable()
           ->openable()
           ->previewable(false)
-          ->helperText('Format file: PDF atau Gambar. Maksimal ukuran file: ' . config('app.max_file_size') / 1024 . 'MB.')
-          ->acceptedFileTypes([
-            'application/pdf',
-            'image/*',
-          ]),
+          ->helperText('Format file: PDF, Gambar, RAR, atau ZIP. Maksimal ukuran file: ' . config('app.max_file_size') / 1024 . 'MB.')
+          // ->acceptedFileTypes([
+          //   'application/pdf',    // PDF files
+          //   'image/*',           // Semua jenis gambar
+          //   'application/zip',    // ZIP files
+          //   'application/x-rar-compressed', // RAR files
+          //   'application/vnd.rar' // RAR files (format alternatif)
+          // ])
+          ->maxSize(config('app.max_file_size'))
+          ->preserveFilenames()
+          ->getUploadedFileNameForStorageUsing(function ($file): string {
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension    = $file->getClientOriginalExtension();
+            $timestamp    = Carbon::now()->format('Ymd_His');
+            return $originalName . '_' . $timestamp . '.' . $extension;
+          }),
       ]);
   }
 
@@ -75,6 +95,11 @@ class DokumenIPKDResource extends Resource
           ->searchable()
           ->wrap(),
 
+        Tables\Columns\TextColumn::make('tahun_pelaporan')
+          ->label('Tahun Pelaporan')
+          ->searchable()
+          ->wrap(),
+
         Tables\Columns\TextColumn::make('tgl_publish')
           ->label('Dipublish')
           ->date('d M Y')
@@ -86,25 +111,24 @@ class DokumenIPKDResource extends Resource
           ->date('d M Y'),
       ])
       ->filters([
-        Tables\Filters\SelectFilter::make('tahun')
-          ->label('Tahun')
+        Tables\Filters\SelectFilter::make('tahun_pelaporan')
+          ->label('Tahun Pelaporan')
           ->options(function () {
-            return DokumenIPKD::selectRaw('YEAR(tgl_publish) as tahun')
-              ->whereNotNull('tgl_publish')
+            return DokumenIPKD::whereNotNull('tahun_pelaporan')
               ->distinct()
-              ->orderByDesc('tahun')
-              ->pluck('tahun', 'tahun'); // key = value = tahun
+              ->orderByDesc('tahun_pelaporan')
+              ->pluck('tahun_pelaporan', 'tahun_pelaporan'); // key = value = tahun
           })
           ->query(function ($query, array $data) {
             if (! $data['value']) {
               return $query;
             }
 
-            return $query->whereYear('tgl_publish', $data['value']);
+            return $query->where('tahun_pelaporan', $data['value']);
           }),
       ])
 
-      ->defaultSort('tgl_publish', 'desc')
+      ->defaultSort('tahun_pelaporan', 'desc')
       ->actions([
         // ✅ Tombol DOWNLOAD
         Action::make('download')

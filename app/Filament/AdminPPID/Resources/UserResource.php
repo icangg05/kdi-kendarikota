@@ -106,7 +106,7 @@ class UserResource extends Resource
       ->columns([
         Tables\Columns\TextColumn::make('#')
           ->label('#')
-          ->state(fn($rowLoop) => $rowLoop->iteration . '.')
+          ->rowIndex()
           ->width('7%'),
 
         Tables\Columns\TextColumn::make('name')

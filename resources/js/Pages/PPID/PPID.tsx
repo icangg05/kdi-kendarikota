@@ -45,6 +45,7 @@ export default function DaftarInformasiPublik({
   jumlahBerkala,
   jumlahSertaMerta,
   jumlahSetiapSaat,
+  dokumen_ipkd,
 }: any) {
   const menu_lain = [
     {
@@ -74,7 +75,7 @@ export default function DaftarInformasiPublik({
     },
     {
       id: "ipkd",
-      label: "Dokumen IPKD",
+      label: "Dokumen Pelaporan IPKD",
       icon: FileText, // ipkd
     },
   ];
@@ -189,7 +190,7 @@ export default function DaftarInformasiPublik({
             {activeId === "cek-permohonan" && (
               <CekStatusPermohonanInformasiPublik />
             )}
-            {activeId === "ipkd" && <CardIPKD />}
+            {activeId === "ipkd" && <CardIPKD dokumen_ipkd={dokumen_ipkd} />}
 
             {activeId === "pengajuan-keberatan" && <CardPengajuanKeberatan />}
             {activeId === "cek-status-pengajuan-keberatan" && (
