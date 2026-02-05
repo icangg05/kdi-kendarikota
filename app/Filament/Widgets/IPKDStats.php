@@ -11,7 +11,7 @@ class IPKDStats extends BaseWidget
 {
   protected function getStats(): array
   {
-    if (Auth::user()->role == 'admin-ppid') {
+    if (Auth::user()->role == 'admin-opd' || Auth::user()->role == 'admin-ppid') {
       $stats = [];
 
       // Ambil tahun_pelaporan yang tersedia
