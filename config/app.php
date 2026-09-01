@@ -12,7 +12,7 @@ return [
     | other UI elements where an application name needs to be displayed.
     |
     */
-    'max_file_size' => '204800',
+    'max_file_size' => '307200',
     'max_img_size' => '2048',
 
     'name' => env('APP_NAME', 'Laravel'),

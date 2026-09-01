@@ -52,7 +52,10 @@ RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
 RUN echo "upload_max_filesize=500M\npost_max_size=500M\nmemory_limit=512M\n" > /usr/local/etc/php/conf.d/uploads.ini
 
 # -----------------------------
-# Laravel storage link
+# Samakan uid www-data dengan user host
 # -----------------------------
-# (biar gak error kalau artisan belum ada pas build, pakai || true)
-RUN php artisan storage:link || true
+# Bind mount ./:/var/www/html bawa file milik uid host; tanpa ini Apache (uid 33)
+# tidak bisa menulis storage/ dan bootstrap/cache.
+ARG UID=1000
+ARG GID=1000
+RUN groupmod -g ${GID} www-data && usermod -u ${UID} -g ${GID} www-data

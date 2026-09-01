@@ -1,0 +1,41 @@
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: kdi-kendarikota-app
+    restart: unless-stopped
+    ports:
+      - "8002:80"
+      - "5173:5173"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: kdi-kendarikota-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootsecret
+      MYSQL_DATABASE: db_kendarikota
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: kdi-kendarikota-pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      UPLOAD_LIMIT: 500M
+    ports:
+      - "8003:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:
